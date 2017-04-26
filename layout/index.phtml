@@ -1,0 +1,90 @@
+<?php
+/*
+ * 2012 Slaven Hrkac
+ */
+
+//~ Template for index.php
+// variables:
+//  $template - page to be displayed (included)
+//  $flashes - flash messages
+
+?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+<head>
+    <title>Popis gostiju</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+    <!-- <link rel="shortcut icon" href="favicon.ico" type="image/x-icon" /> -->
+    <meta name="description" content="Popis gostiju - aplikacija za evidenciju gostiju" />
+    <meta name="keywords" content="Popis, gosti" />
+    <meta name="author" content="Slaven Hrkac" />
+
+    <link type="text/css" href="css/redmond/jquery-ui-1.8.16.custom.css" rel="stylesheet" />
+    <link href="css/style.css" rel="stylesheet" type="text/css" />
+    <link href="css/layout.css" rel="stylesheet" type="text/css" />
+    <script type="text/javascript" src="js/jquery-1.6.2.min.js"></script>
+    <script type="text/javascript" src="js/jquery-ui-1.8.16.custom.min.js"></script>
+    <script type="text/javascript" src="js/script.js"></script>
+    <script type="text/javascript" src="js/jquery.dataTables.js"></script>
+    <script type="text/javascript" charset="utf-8">
+        $(document).ready(function() {
+            // focus on the first text input field in the first field on the page
+            $("input[type='text']:first", document.forms[0]).focus();
+        });
+    </script>
+
+</head>
+<body id="page">
+    <div class="tail-top-right"></div>
+    <div id="main">
+        <!-- header -->
+        <div id="header"></div>
+        <!-- content -->
+        <div id="content">
+            <div class="wrapper">
+                <div class="col-1">
+                    <div class="box">
+                        <div class="inner">
+                            <div class="title"><a href="http://www.slavenhrkac.com">Slaven Hrkac</a></div>
+                            <ul class="list">
+                                <li><span><a href="<?php echo Utils::createLink('home'); ?>">Home</a></span></li>
+                                <li><span><a href="<?php echo Utils::createLink('list', array('sort' => Gost::SORT_ALL)); ?>"
+                                             ><img src="img/menu/lista.png" alt="" title="Lista gostiju" class="icon" />Lista gostiju</a></span></li>
+                                <li><span><a href="<?php echo Utils::createLink('list', array('sort' => Gost::SORT_A)); ?>"
+                                             ><img src="img/menu/lista.png" alt="" title="Lista gostiju A" class="icon" />Lista gostiju A</a></span></li>
+                                <li><span><a href="<?php echo Utils::createLink('list', array('sort' => Gost::SORT_B)); ?>"
+                                             ><img src="img/menu/lista.png" alt="" title="Lista gostiju B" class="icon" />Lista gostiju B</a></span></li>
+                                <li class="last"><span><a href="<?php echo Utils::createLink('add-edit', array('sort' => Gost::SORT_A)); ?>"
+                                             ><img src="img/menu/gost_dodaj.png" alt="" title="Dodavanje gosta A" class="icon" />Dodaj gosta A</a></span></li>
+                                <li class="last"><span><a href="<?php echo Utils::createLink('add-edit', array('sort' => Gost::SORT_B)); ?>"
+                                             ><img src="img/menu/gost_dodaj.png" alt="" title="Dodavanje gosta B" class="icon" />Dodaj gosta B</a></span></li>
+                                <li class="last"><span><a href="<?php echo Utils::createLink('add-edit-group'); ?>"
+                                             ><img src="img/menu/group_add.png" alt="" title="Grupe" class="icon" />Grupe</a></span></li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-2">
+                    <div class="indent">
+                        <?php if ($flashes): ?>
+                            <ul id="flashes">
+                            <?php foreach ($flashes as $flash): ?>
+                                <li><?php echo $flash; ?></li>
+                            <?php endforeach; ?>
+                            </ul>
+                        <?php endif; ?>
+
+                        <?php require $template; ?>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- footer -->
+        <div id="footer">
+            <div class="indent">
+                <div class="fleft"><a href="http://www.slavenhrkac.com">Slaven Hrkac</a>, 2012 &copy; Copyright Slaven Hrkac, All rights reserved</div>
+            </div>
+        </div>
+    </div>
+</body>
+</html>

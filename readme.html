@@ -1,0 +1,108 @@
+<!--
+2012 Slaven Hrkac
+-->
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Popis gostiju - aplikacija za evidenciju gostiju</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+    <link href="web/css/style.css" rel="stylesheet" type="text/css" />
+    <link href="web/css/layout.css" rel="stylesheet" type="text/css" />
+</head>
+<body id="page">
+    <div class="tail-top-right"></div>
+    <div id="main">
+        <!-- header -->
+        <div id="header"></div>
+        <!-- content -->
+        <div id="content">
+            <div class="wrapper">
+                <div class="col-2">
+                    <div class="indent">
+
+                        <h1>Popis gostiju</h1>
+                        <h2>Aplikacija za evidenciju gostiju</h2>
+
+                        <h3>Koji su ciljevi aplikacije?</h3>
+                        <p class="p">Stvoriti aplikaciju kojom jednostavno vršimo evidenciju i raspored gostiju na događanjima.
+                            Aplikacija je rađena za vlastite potrebe a može se upotrijebiti i ostale svrhe :)
+                        </p>
+                        <p class="p">
+                            <b>Okruženje (server i bazu) je prethodno potrebno konfigurirat.</b>
+                        </p>
+
+                        <h3>Preko ove aplikacije je moguće:</h3>
+                        <ul class="p">
+                            <li>upisivati pojedinačne goste</li>
+                            <li>raditi grupe gostiju</li>
+                            <li>svakoj od grupa moguće je odabrati stol :)</li>
+                            <li>ostalo</li>
+                        </ul>
+
+                        <h3 id="getting_started">Getting Started</h3>
+                        <ol class="p">
+                            <li>
+                                Firstly, we set database authentication in <i>config/config.ini</i>.<br>
+                                Just update login and password
+                                fields in the configuration file, so they are the same as MySQL ones.
+                            </li>
+                            <li>
+                                Secondly, we create the database and populate it with data:
+                                <ol type="a">
+                                    <li>Create new MySQL database named <i>popis</i> in phpMyAdmin (or any other MySQL administration tool).</li>
+                                    <li>Run <i>db/popis.sql</i> script stored in Popis Project directory.
+                                        The script creates table and fills it with sample data.</li>
+                                </ol>
+                            </li>
+                            <li>The strongly preferred way is to create all your PHP applications underneath the documents directory (<i>htdocs</i>)
+                                of your web server (so the web server can access them directly, e.g. <i>http://localhost/Popis/web/</i>). If it is not
+                                your case, then set project properties to deploy project sucessfully to it:
+                                <ol type="a">
+                                    <li>Right-click on the <i>Popis</i> project node and select <i>Properties</i>.</li>
+                                    <li>Check the option <i>Copy files from Sources Folder to another location</i>.</li>
+                                    <li>In <i>Copy to Folder</i> field specify the path of the documents directory (<i>htdocs</i>)
+                                        of your web server.</li>
+                                    <li>Specify the <i>Project URL</i> to be appropriate with your settings from previous field and
+                                        also with Web Server setup.</li>
+                                    <li>Confirm the settings.</li>
+                                </ol>
+                            </li>
+                            <li>
+                                Finally, we can run the project. Right-click the project node again and select <i>Run Project</i>
+                                or use the <i>Run Project</i> icon in the main menu toolbar.
+                                The sample PHP application should open in the Web browser.
+                            </li>
+                            <li>Play futher with the sample :)</li>
+                        </ol>
+
+                        <h3>Project folder's structure</h3>
+                        <ul class="p">
+                            <li><i>config</i> - Contains configuration file <i>config.ini</i> where you can edit the DB connection settings.</li>
+                            <li><i>dao</i> - Contains DAO (Data Access Object) classes.</li>
+                            <li><i>db</i> - Contains SQL dump for creating the database.</li>
+                            <li><i>exception</i> - Contains custom exceptions.</li>
+                            <li><i>layout</i> - Contains layout common for all web pages.</li>
+                            <li><i>mapping</i> - Contains classes used for mapping from database to model classes.</li>
+                            <li><i>model</i> - Contains model classes.</li>
+                            <li><i>page</i> - Contains pages of the Popis application.</li>
+                            <li><i>util</i> - Contains utility classes.</li>
+                            <li><i>validation</i> - Contains validation classes.</li>
+                            <li><i>web</i> - Contains publicly accessible files (PHP scripts, CSS, JS, images).</li>
+                        </ul>
+
+                        <h3>Credits</h3>
+                        <p class="p">This sample application uses great <a href="http://www.famfamfam.com/lab/icons/silk/">SILK icons</a> created by Mark James.</p>
+
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- footer -->
+        <div id="footer">
+            <div class="indent">
+                <div class="fleft"><a href="http://www.slavenhrkac.com/">Slaven Hrkac Team</a>, 2012 &copy; Copyright Slaven Hrkac, All rights reserved</div>
+            </div>
+        </div>
+    </div>
+</body>
+</html>

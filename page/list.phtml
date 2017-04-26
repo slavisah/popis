@@ -1,0 +1,86 @@
+<?php
+/*
+ * 2012 Slaven Hrkac
+ */
+
+//~ Template for list.php
+// variables:
+//  $title - page title
+//  $sort - status of Gost to be displayed
+//  $gosti - Gosti to be displayed
+
+?>
+<script type="text/javascript" charset="utf-8">
+        /* Define two custom functions (asc and desc) for string sorting */
+        jQuery.fn.dataTableExt.oSort['string-case-asc']  = function(x,y) {
+                return ((x < y) ? -1 : ((x > y) ?  1 : 0));
+        };
+
+        jQuery.fn.dataTableExt.oSort['string-case-desc'] = function(x,y) {
+                return ((x < y) ?  1 : ((x > y) ? -1 : 0));
+        };
+
+        $(document).ready(function() {
+                /* Build the DataTable with third column using our custom sort functions */
+                $('#gostiTableId').dataTable( {
+                } );
+        } );
+</script>
+
+<h1>
+    <img src="img/status/<?php echo $sort; ?>.png" alt="" title="<?php echo Utils::capitalize($sort); ?>" class="icon" />
+    <?php echo $title." gosti"; ?>
+</h1>
+
+<table cellpadding="0" cellspacing="0" border="0" class="display" id="gostiTableId">
+    <thead>
+        <tr>
+            <th>Ime i prezime</th>
+            <th>Strana</th>
+            <th>Grupa</th>
+            <th>Komentar</th>
+            <th>Prebaci</th>
+            <th>Izbriši</th>
+        </tr>
+    </thead>
+    <tbody>
+        <?php foreach ($gosti as $gost): ?>
+            <?php /* @var $gost Gost */ ?>
+        <tr class="<?php 
+                    if ($gost->getDomacinId() == Gost::SIDE_A) : echo "odd gradeC";
+                    elseif ($gost->getDomacinId() == Gost::SIDE_B) : echo "odd gradeA";
+                    else : echo "odd gradeX";
+                    endif;
+                    ?>">
+
+            <td><a href="<?php echo Utils::createLink('add-edit', array('id' => $gost->getId(), 'sort' => $gost->getSort())) ?>"><?php echo Utils::escape($gost->getPrezime()." ".$gost->getIme()); ?></a></td>
+            <td class="center"><?php echo Utils::escape($gost->getNazivDomacina()); ?></td>
+            <td class="center"><?php echo Utils::escape($gost->getNazivGrupe()); ?></td>
+            <td><?php echo Utils::escape($gost->getKomentar()); ?></td>
+            <td class="center">
+                <?php foreach (Gost::allSides() as $key => $side): ?>
+                    <?php if ($side != $gost->getDomacinId()): ?>
+                        <a href="<?php echo Utils::createLink('change-status', array('id' => $gost->getId(), 'side' => $side, 'sort' => $gost->getSort())); ?>" title="Promijeni stranu za Gosta u <?php echo Utils::capitalize($key); ?>." class="change-status-link"
+                        ><img src="img/priority/<?php echo $side; ?>.png" alt="" title="Prebaci gosta na <?php echo Utils::capitalize($key); ?> stranu." class="icon" /></a>
+                    <?php endif; ?>
+                <?php endforeach; ?>
+            </td>
+            <td class="center"><a href="<?php echo Utils::createLink('delete', array('id' => $gost->getId(), 'sort' => $gost->getSort())); ?>" id="delete-link<?php echo Utils::escape($gost->getId()); ?>"><img src="img/action/delete.png" alt="" title="Izbriši." class="icon" /></a></td>
+        </tr>
+        <?php endforeach; ?>
+    </tbody>
+    <tfoot>
+        <tr>
+            <th>Ime i prezime</th>
+            <th>Strana</th>
+            <th>Grupa</th>
+            <th>Komentar</th>
+            <th>Prebaci</th>
+            <th>Izbriši</th>
+        </tr>
+    </tfoot>
+</table>
+
+<div id="delete-dialog" title="Izbriši gosta?">
+    <p><span class="ui-icon ui-icon-alert" style="float:left; margin:0 7px 20px 0;"></span><?php echo Utils::escape($gost->getIme()." ".$gost->getPrezime())?> će biti izbrisan. Jeste li sigurni?</p>
+</div>

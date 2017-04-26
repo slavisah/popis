@@ -1,0 +1,124 @@
+<?php
+/*
+ * 2012
+ */
+
+//~ Template for add-edit.php
+// variables:
+//  $errors - validation errors
+//  $grupa - submitted Grupa
+//  $edit - true for EDIT, false for ADD
+
+function error_field($title, array $errors) {
+    foreach ($errors as $error) {
+        /* @var $error Error */
+        if ($error->getSource() == $title) {
+            return ' error-field';
+        }
+    }
+    return '';
+}
+
+/* @var $grupa Grupa */
+?>
+
+<script type="text/javascript" charset="utf-8">
+        /* Define two custom functions (asc and desc) for string sorting */
+        jQuery.fn.dataTableExt.oSort['string-case-asc']  = function(x,y) {
+                return ((x < y) ? -1 : ((x > y) ?  1 : 0));
+        };
+
+        jQuery.fn.dataTableExt.oSort['string-case-desc'] = function(x,y) {
+                return ((x < y) ?  1 : ((x > y) ? -1 : 0));
+        };
+
+        $(document).ready(function() {
+                /* Build the DataTable with third column using our custom sort functions */
+                $('#grupeTableId').dataTable( {
+
+                } );
+        } );
+</script>
+
+<h1>
+    <?php if ($edit): ?>
+        <?php echo Utils::escape($grupa->getNaziv()); ?>
+    <?php else: ?>
+    Dodaj novu grupu
+    <?php endif; ?>
+</h1>
+
+<?php if (!empty($errors)): ?>
+<ul class="errors">
+    <?php foreach ($errors as $error): ?>
+        <?php /* @var $error Error */ ?>
+        <li><?php echo $error->getMessage(); ?></li>
+    <?php endforeach; ?>
+</ul>
+<?php endif; ?>
+
+<form action="#" method="post">
+    <fieldset>
+        <div class="field">
+            <label>Naziv:</label>
+            <input type="text" name="grupa[naziv]" value="<?php echo Utils::escape($grupa->getNaziv()); ?>"
+                   class="text<?php echo error_field('naziv', $errors); ?>"/>
+        </div>
+        <div class="field">
+            <label>Broj stola:</label>
+            <input type="text" name="grupa[stol_id]" value="<?php echo Utils::escape($grupa->getStolId()); ?>"
+                   class="text<?php echo error_field('stol_id', $errors); ?>"/>
+        </div>
+        <div class="wrapper">
+            <input type="submit" name="cancel" value="CANCEL" class="submit" />
+            <input type="submit" name="save" value="<?php echo $edit ? 'EDIT' : 'ADD'; ?>" class="submit" />
+        </div>
+    </fieldset>
+</form>
+<br>
+<?php if (empty($grupe)): ?>
+    <p>Nema zapisa u bazi.</p>
+<?php else: ?>
+    <table cellpadding="0" cellspacing="0" border="0" class="display" id="grupeTableId">
+        <thead>
+            <tr>
+                <th>Naziv</th>
+                <th>Broj stola</th>
+                <th>Izbriši</th>
+            </tr>
+        </thead>
+        <tbody>
+            <?php foreach ($grupe as $grupa): ?>
+                <?php /* @var $gost Gost */ ?>
+            <tr class="odd gradeX">
+                <td>
+                    <?php
+                    if(!$grupa->getDefault()) : ?>
+                    <a href="<?php echo Utils::createLink('add-edit-group', array('id' => $grupa->getId()));?>"><?php echo Utils::escape($grupa->getNaziv()); ?></a>
+                    <?php
+                    else : 
+                        echo Utils::escape($grupa->getNaziv());
+                    endif;
+                    ?>
+                </td>
+                <td class="center"><?php echo Utils::escape(($grupa->getStolId() == 0) ? null : $grupa->getStolId()); ?></td>
+                <td class="center">
+                    <?php
+                    if(!$grupa->getDefault()) :?>
+                    <a href="<?php echo Utils::createLink('delete-group', array('id' => $grupa->getId())); ?>" id="delete-link<?php echo Utils::escape($grupa->getId()); ?>"><img src='img/action/delete.png' alt='' title='Izbriši.' class='icon' /></a>
+                    <?php
+                    endif;
+                    ?>
+                </td>
+            </tr>
+            <?php endforeach; ?>
+        </tbody>
+        <tfoot>
+            <tr>
+                <th>Naziv</th>
+                <th>Broj stola</th>
+                <th>Izbriši</th>
+            </tr>
+        </tfoot>
+    </table>
+<?php endif; ?>

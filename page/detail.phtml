@@ -1,0 +1,60 @@
+<?php
+/*
+ * 2012 Slaven Hrkac
+ */
+
+//~ Template for detail.php
+// variables:
+//  $gost - Gost to be displayed
+
+/* @var $gost Gost */
+?>
+
+<h1>
+    <?php echo Utils::escape($gost->getIme()." ".$gost->getPrezime()); ?>
+</h1>
+
+<table class="detail">
+    <tr>
+        <th>Grupa</th>
+        <td><?php echo Utils::escape(Utils::escape($gost->getNazivGrupe())); ?></td>
+    </tr>
+    <tr>
+        <th>Komentar</th>
+        <td><?php echo Utils::escape(Utils::escape($gost->getKomentar())); ?></td>
+    </tr>
+    <tr>
+        <th></th>
+        <td>
+            <div class="statuses">
+            <?php foreach (Gost::allSides() as $key => $side): ?>
+                <?php if ($side != $gost->getDomacinId()): ?>
+                    <a href="<?php echo Utils::createLink('change-status', array('id' => $gost->getId(), 'side' => $side)); ?>" title="Promijeni stranu za Gosta u <?php echo Utils::capitalize($side); ?>." class="change-status-link"
+                       ><img src="img/priority/<?php echo $side; ?>.png" alt="" title="Prebaci gosta na <?php echo Utils::capitalize($key); ?> stranu." class="icon" /></a>
+                <?php else: ?>
+                    <img src="img/priority/<?php echo $side; ?>-disabled.png" alt="" title="This Gost is already <?php echo Utils::capitalize($side); ?>." class="icon" />
+                <?php endif; ?>
+            <?php endforeach; ?>
+            </div>
+
+            <div class="actions">
+                <a href="<?php echo Utils::createLink('add-edit', array('id' => $gost->getId(), 'sort' => $gost->getSort())); ?>"><img src="img/action/edit.png" alt="" title="Ažuriraj podatke." class="icon" /></a>
+                <a href="<?php echo Utils::createLink('delete', array('id' => $gost->getId(), 'sort' => $gost->getSort())); ?>" id="delete-link"><img src="img/action/delete.png" alt="" title="Izbriši." class="icon" /></a>
+            </div>
+        </td>
+    </tr>
+</table>
+
+<p>
+    <?php $backLink = Utils::createLink('list', array('sort' => $gost->getSort())); ?>
+    <a href="<?php echo $backLink; ?>"><img src="img/action/back.png" alt="" title="Natrag na listu." class="icon"/></a>&nbsp;
+    <a href="<?php echo $backLink; ?>">Natrag na listu</a>
+</p>
+
+<div id="delete-dialog" title="Izbriši gosta?">
+    <p><span class="ui-icon ui-icon-alert" style="float:left; margin:0 7px 20px 0;"></span><?php echo Utils::escape($gost->getIme()." ".$gost->getPrezime())?> će biti izbrisan. Jeste li sigurni?</p>
+</div>
+<div id="change-status-dialog">
+    <form id="change-status-form" method="post">
+    </form>
+</div>

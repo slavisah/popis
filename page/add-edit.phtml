@@ -1,0 +1,77 @@
+<?php
+/*
+ * 2012
+ */
+
+//~ Template for add-edit.php
+// variables:
+//  $errors - validation errors
+//  $gost - submitted Gost
+//  $edit - true for EDIT, false for ADD
+//  $grupe - lista grupa koje su u bazi
+
+function error_field($title, array $errors) {
+    foreach ($errors as $error) {
+        /* @var $error Error */
+        if ($error->getSource() == $title) {
+            return ' error-field';
+        }
+    }
+    return '';
+}
+
+/* @var $gost Gost */
+?>
+
+<h1>
+    <?php if ($edit): ?>
+        <?php echo Utils::escape($gost->getPrezime()." ".$gost->getIme()); ?>
+    <?php else: ?>
+    Dodaj novog gosta <?php echo ($gost->getDomacinId() == 1) ? Gost::SORT_A:Gost::SORT_B;?>
+    <?php endif; ?>
+</h1>
+
+<?php if (!empty($errors)): ?>
+<ul class="errors">
+    <?php foreach ($errors as $error): ?>
+        <?php /* @var $error Error */ ?>
+        <li><?php echo $error->getMessage(); ?></li>
+    <?php endforeach; ?>
+</ul>
+<?php endif; ?>
+
+<form action="#" method="post">
+    <fieldset>
+        <div class="field">
+            <label>Ime:</label>
+            <input type="text" name="gost[ime]" value="<?php echo Utils::escape($gost->getIme()); ?>"
+                   class="text<?php echo error_field('ime', $errors); ?>"/>
+        </div>
+        <div class="field">
+            <label>Prezime:</label>
+            <input type="text" name="gost[prezime]" value="<?php echo Utils::escape($gost->getPrezime()); ?>"
+                   class="text<?php echo error_field('prezime', $errors); ?>"/>
+        </div>
+        <div class="field">
+            <label>Grupa:</label>
+            <select name="gost[grupa_id]">
+            <?php foreach ($grupe as $grupa): ?>
+                <option value="<?php echo $grupa->getId(); ?>"
+                        <?php if ($grupa->getId() == $gost->getGrupaId()): ?>
+                            selected="selected"
+                        <?php endif; ?>
+                        ><?php echo $grupa->getNaziv(); ?></option>
+            <?php endforeach; ?>
+            </select>
+        </div>
+        <div class="field">
+            <label>Komentar:</label>
+            <textarea name="gost[komentar]" cols="1" rows="1"
+                      class="<?php echo error_field('komentar', $errors); ?>"><?php echo Utils::escape($gost->getKomentar()); ?></textarea>
+        </div>
+        <div class="wrapper">
+            <input type="submit" name="cancel" value="CANCEL" class="submit" />
+            <input type="submit" name="save" value="<?php echo $edit ? 'EDIT' : 'ADD'; ?>" class="submit" />
+        </div>
+    </fieldset>
+</form>
